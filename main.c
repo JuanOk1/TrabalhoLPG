@@ -33,9 +33,8 @@ int busca_sequencial(int matriz[M][N], int linha, int valor /*, int colunas_pree
   int j; // coluna
 
   for (j = 0; matriz[linha][j] != 0 /*j < colunas_preenchidas*/; j++)
-    if (matriz[linha][j] == valor) {
+    if (matriz[linha][j] == valor)
       return 1; // encontrou o número repetido
-    }
   return 0; // não há números repetidos
 }
 
