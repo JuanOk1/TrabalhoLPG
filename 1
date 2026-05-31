@@ -107,48 +107,10 @@ void buscar_valor_matriz(int *cont, int conjuntos[M][N]) {
   }
 }
 
-void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
-  int i1, i2; // os índices que o usuário deve informar
-
-  printf("Digite a linha do primeiro conjunto: \n");
-  scanf("%d", &i1);
-
-  printf("Digite a linha do segundo conjunto: \n");
-  scanf("%d", &i2);
-
-  int pos_coluna_nova = 0;
-
-  if (i1 >= 0 && i1 < *cont && i2 >= 0 && i2 < *cont) {
-    for (int j = 0; j < N && conjuntos[i1][j] != 0; j++) {
-
-      // o cont aponta para a próxima linha vazia
-      conjuntos[*cont][pos_coluna_nova] = conjuntos[i1][j];
-      pos_coluna_nova++;
-    }
-    for (int j = 0; j < N && conjuntos[i2][j] != 0; j++) {
-      int elemento = conjuntos[i2][j];
-      if (!busca_sequencial(conjuntos, *cont, elemento)) {
-        conjuntos[*cont][pos_coluna_nova] = elemento;
-        pos_coluna_nova++;
-      }
-    }
-    // adiciona o 0 no fim da nova linha para marcar o fim do conjunto
-    conjuntos[*cont][pos_coluna_nova] = 0;
-
-    (*cont)++;
-
-    printf("Uniao realizada com sucesso na linha %d\n", *cont - 1);
-  } else {
-    printf("Erro: Uma ou ambas as linhas informadas são inválidas!\n");
-    return;
-  }
-}
-
 int main() {
   int conjuntos[M][N] = {0};
-
-  // conta o número de conjuntos existentes
   int cont = 2; // cont != 0 apenas para testes
+
   conjuntos[0][0] = 1;
   conjuntos[1][0] = 2;
 
