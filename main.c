@@ -12,7 +12,7 @@ void inicializar_matriz(int matriz[M][N]) {
   }
 }
 
-void mostrar_conjunto(int *cont, int conjuntos[M][N], int linha) {
+void mostrar_conjunto(int* cont, int conjuntos[M][N], int linha) {
   int i;
 
   if (linha > *cont - 1) {
@@ -25,21 +25,20 @@ void mostrar_conjunto(int *cont, int conjuntos[M][N], int linha) {
       printf("%d ", conjuntos[linha][i]);
   } else
     printf("vazio");
-  // printf("\n");
+
+  //printf("\n");
 }
 
-int busca_sequencial(int matriz[M][N], int linha,
-                     int valor /*, int colunas_preenchidas*/) {
-
+int busca_sequencial(int matriz[M][N], int linha, int valor /*, int colunas_preenchidas*/) {
   int j; // coluna
 
   for (j = 0; matriz[linha][j] != 0 /*j < colunas_preenchidas*/; j++)
     if (matriz[linha][j] == valor)
       return 1; // encontrou o número repetido
-  return 0;     // não há números repetidos
+  return 0; // não há números repetidos
 }
 
-void inserir(int *cont, int conjuntos[M][N]) {
+void inserir(int* cont, int conjuntos[M][N]) {
   int i, j, valor = 1;
 
   printf("Digite o indice do conjunto: ");
@@ -55,8 +54,7 @@ void inserir(int *cont, int conjuntos[M][N]) {
     return;
   }
 
-  for (i = 0; conjuntos[j][i] != 0; i++)
-    ; // Coloca o índice i na primeira posição vazia.
+  for(i = 0; conjuntos[j][i] != 0; i++); // Coloca o índice i na primeira posição vazia.
 
   if (i < N) {
     printf("Digite os valores, um por vez:\n");
@@ -64,17 +62,17 @@ void inserir(int *cont, int conjuntos[M][N]) {
       scanf("%d", &valor);
       int eh_valor_repetido = busca_sequencial(conjuntos, j, valor);
       if (valor && !eh_valor_repetido) {
-        conjuntos[j][i] = valor;
+	conjuntos[j][i] = valor;
       } else if (valor) {
-        printf("Valor ja inserido. Digito outro valor\n");
-        i--;
+	printf("Valor ja inserido. Digito outro valor\n");
+	i--;
       }
     }
   } else
-    printf("O conjunto %d esta cheio!\n", j);
+      printf("O conjunto %d esta cheio!\n", j);
 }
 
-void mostrar_todos_os_conjuntos(int *cont, int conjuntos[M][N]) {
+void mostrar_todos_os_conjuntos(int* cont, int conjuntos[M][N]) {
   int i;
 
   for (i = 0; i < *cont; i++)
@@ -146,14 +144,13 @@ void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
 
 int main() {
   int conjuntos[M][N] = {0};
-
   // conta o número de conjuntos existentes
   int cont = 2; // cont != 0 apenas para testes
   conjuntos[0][0] = 1;
   conjuntos[1][0] = 2;
 
   mostrar_todos_os_conjuntos(&cont, conjuntos);
-
+  
   // mostrar_conjunto(&cont, conjuntos, 0);
   inserir(&cont, conjuntos);
   mostrar_todos_os_conjuntos(&cont, conjuntos);
