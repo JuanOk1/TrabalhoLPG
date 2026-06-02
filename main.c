@@ -12,6 +12,11 @@ void inicializar_matriz(int matriz[M][N]) {
   }
 }
 
+void esperar_enter(char string[]) {
+  printf("\nDigite 0 e pressione enter para voltar ao menu... ");
+  scanf("%s", string);
+}
+
 void preencher_linha(int matriz[M][N], int linha, int valor_inicial) {
   int i;
   for(i = 0; i < N; i++, valor_inicial++)
@@ -35,6 +40,12 @@ int indice_esta_no_intervalo(int j, int* cont) {
 }
 
 void mostrar_conjunto(int* cont, int conjuntos[M][N], int linha) {
+
+  if (!*cont) {
+    printf("Nenhum conjunto foi criado\n");
+    return;
+  }
+  
   int i;
 
   /*
@@ -66,6 +77,12 @@ int busca_sequencial(int matriz[M][N], int linha, int valor /*, int colunas_pree
 }
 
 void inserir(int* cont, int conjuntos[M][N]) {
+
+  if (!*cont) {
+    printf("Nenhum conjunto foi criado\n");
+    return;
+  }
+  
   int i, j, valor = 1;
 
   printf("Digite o indice do conjunto: ");
@@ -106,6 +123,12 @@ void inserir(int* cont, int conjuntos[M][N]) {
 }
 
 void mostrar_todos_os_conjuntos(int* cont, int conjuntos[M][N]) {
+
+  if (!*cont) {
+    printf("Nenhum conjunto foi criado\n");
+    return;
+  }
+  
   int i;
 
   for (i = 0; i < *cont; i++)
@@ -118,6 +141,12 @@ void mostrar_todos_os_conjuntos(int* cont, int conjuntos[M][N]) {
 }
 
 void buscar_valor_matriz(int *cont, int conjuntos[M][N]) {
+
+  if (!*cont) {
+    printf("Nenhum conjunto foi criado\n");
+    return;
+  }
+  
   int valor_procurado;
   printf("Digite o número inteiro procurado: ");
   scanf("%d", &valor_procurado);
@@ -139,6 +168,12 @@ void buscar_valor_matriz(int *cont, int conjuntos[M][N]) {
 }
 
 void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
+
+  if (!*cont) {
+    printf("Nenhum conjunto foi criado\n");
+    return;
+  }
+  
   int i1, i2; // os índices que o usuário deve informar
 
   printf("Digite a linha do primeiro conjunto: \n");
@@ -176,6 +211,12 @@ void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
 }
 
 void remover_conjunto(int *cont, int conjuntos[M][N]) {
+
+  if (!*cont) {
+    printf("Nenhum conjunto foi criado\n");
+    return;
+  }
+  
   int i, j, k, l1;
 
   printf("Digite a linha do conjunto a ser removido: ");
@@ -189,6 +230,8 @@ void remover_conjunto(int *cont, int conjuntos[M][N]) {
       conjuntos[j][k] = conjuntos[j + 1][k];
       conjuntos[j + 1][k] = 0;
     }
+
+  printf("Conjunto %d removido com sucesso\n", l1);
 
   *cont = *cont - 1;
 }
@@ -220,6 +263,7 @@ void menu() {
 int main() {
   int conjuntos[M][N] = {0};
   // conta o número de conjuntos existentes
+  char input[10];
   int escolha = 1, linha_mostra_conjunto, cont = 0; // cont != 0 apenas para testes
 
   while (escolha) {
@@ -229,29 +273,44 @@ int main() {
     switch (escolha) {
     case 1:
       criar_conjunto(&cont);
+      esperar_enter(input);
       break;
     case 2:
       inserir(&cont, conjuntos);
+      esperar_enter(input);
       break;
     case 3:
       remover_conjunto(&cont, conjuntos);
+      esperar_enter(input);
       break;
     case 4:
       uniao_conjuntos(&cont, conjuntos);
+      esperar_enter(input);
       break;
     case 5:
       //interseccao_conjuntos(&cont, conjuntos);
+      esperar_enter(input);
       break;
     case 6:
+
+      if (!cont) {
+	printf("Nenhum conjunto foi criado\n");
+	break;
+      }
+      
       printf("\nDigite o numero do conjunto: ");
       scanf("%d", &linha_mostra_conjunto);
       mostrar_conjunto(&cont, conjuntos, linha_mostra_conjunto);
+      esperar_enter(input);
       break;
+      
     case 7:
       mostrar_todos_os_conjuntos(&cont, conjuntos);
+      esperar_enter(input);
       break;
     case 8:
       buscar_valor_matriz(&cont, conjuntos);
+      esperar_enter(input);
       break;
     case 9:
       return 0;
