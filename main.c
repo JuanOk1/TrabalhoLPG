@@ -96,10 +96,10 @@ void inserir(int* cont, int conjuntos[M][N]) {
       int eh_valor_repetido = busca_sequencial(conjuntos, j, valor);
       if (valor && !eh_valor_repetido) {
 	conjuntos[j][i] = valor;
-      } else if (valor) {
+      } /*else if (valor) {
 	printf("Valor ja inserido. Digite outro valor\n");
 	i--;
-      }
+	}*/
     }
   } else
       printf("O conjunto %d esta cheio!\n", j);
@@ -193,10 +193,76 @@ void remover_conjunto(int *cont, int conjuntos[M][N]) {
   *cont = *cont - 1;
 }
 
+void criar_conjunto(int* cont) {
+  if (*cont + 1 > M) {
+    printf("O numero maximo de conjuntos foi atingido\n");
+    return;
+  }
+  *cont = *cont + 1;
+  printf("Um novo conjunto foi criado com sucesso\n");
+}
+
+void menu() {
+  printf("\n\nGerenciamento de Conjuntos\n\n");
+  printf("Menu\n\n");
+  printf("1-Criar um novo conjunto vazio\n");
+  printf("2-Inserir dados em um conjunto\n");
+  printf("3-Remover um conjunto\n");
+  printf("4-Fazer a uniao entre dois conjuntos\n");
+  printf("5-Fazer a interseccao entre dois conjuntos\n");
+  printf("6-Mostrar um conjunto\n");
+  printf("7-Mostrar todos os conjuntos\n");
+  printf("8-Fazer a busca de um valor\n");
+  printf("9-Sair do programa\n\n");
+  printf("Escolha uma opção: ");
+}
+
 int main() {
   int conjuntos[M][N] = {0};
   // conta o número de conjuntos existentes
-  int cont = M; // cont != 0 apenas para testes
+  int escolha = 1, linha_mostra_conjunto, cont = 0; // cont != 0 apenas para testes
+
+  while (escolha) {
+    menu();
+    scanf("%d", &escolha);
+
+    switch (escolha) {
+    case 1:
+      criar_conjunto(&cont);
+      break;
+    case 2:
+      inserir(&cont, conjuntos);
+      break;
+    case 3:
+      remover_conjunto(&cont, conjuntos);
+      break;
+    case 4:
+      uniao_conjuntos(&cont, conjuntos);
+      break;
+    case 5:
+      //interseccao_conjuntos(&cont, conjuntos);
+      break;
+    case 6:
+      printf("\nDigite o numero do conjunto: ");
+      scanf("%d", &linha_mostra_conjunto);
+      mostrar_conjunto(&cont, conjuntos, linha_mostra_conjunto);
+      break;
+    case 7:
+      mostrar_todos_os_conjuntos(&cont, conjuntos);
+      break;
+    case 8:
+      buscar_valor_matriz(&cont, conjuntos);
+      break;
+    case 9:
+      return 0;
+    default:
+      printf("Digite um valor válido\n");
+      escolha = 1;
+      break;
+    }
+  }
+  
+  /*
   preencher_linha(conjuntos, 0, 1);
   preencher_linha(conjuntos, 1, 2);
 
@@ -220,4 +286,5 @@ int main() {
   buscar_valor_matriz(&cont, conjuntos);
 
   return 0;
+  */
 }
