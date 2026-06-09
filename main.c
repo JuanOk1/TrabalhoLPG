@@ -33,7 +33,18 @@ int conjunto_existe(int *cont, int j) {
 
 int indice_esta_no_intervalo(int j, int *cont) {
   if (j < 0 || j > M - 1) {
-    printf("Erro: digite um valor entre 0 e %d", *cont - 1);
+    if (*cont - 1 == 0)
+      printf("Erro: o único número válido no momento é 0");
+    else
+      printf("Erro: digite um valor entre 0 e %d", *cont - 1);
+    return 0;
+  }
+  return 1;
+}
+
+int existe_espaco_na_matriz(int *cont) {
+  if (*cont + 1 == M) {
+    printf("Não é possível criar mais conjuntos.\n");
     return 0;
   }
   return 1;
@@ -54,7 +65,10 @@ void mostrar_conjunto(int *cont, int conjuntos[M][N], int linha) {
     return;
   }
   */
-
+  /*if (!indice_esta_no_intervalo(linha, cont))
+    return;
+  */
+    
   if (!conjunto_existe(cont, linha))
     return;
 
@@ -90,21 +104,9 @@ void inserir(int *cont, int conjuntos[M][N]) {
   printf("Digite o indice do conjunto: ");
   scanf("%d", &j);
 
-  /*
-  if (j < 0 || j > M - 1) {
-    printf("Erro: digite um valor entre 0 e %d", M - 1);
+  if (!indice_esta_no_intervalo(j, cont)) {
     return;
   }
-
-
-  if (j > *cont - 1) {
-    printf("Erro: o conjunto %d nao foi criado!", j);
-    return;
-  }
-  */
-
-  if (!indice_esta_no_intervalo(j, cont))
-    return;
   if (!conjunto_existe(cont, j))
     return;
 
@@ -179,6 +181,9 @@ void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
     return;
   }
 
+  if (!existe_espaco_na_matriz(cont))
+    return;
+  
   int i1, i2; // os índices que o usuário deve informar
 
   printf("Digite a linha do primeiro conjunto: \n");
@@ -220,6 +225,9 @@ void interseccao_conjuntos(int *cont, int conjuntos[M][N]) {
     printf("Nenhum conjunto foi criado\n");
     return;
   }
+
+  if (!existe_espaco_na_matriz(cont))
+    return;
 
   int i1, i2;
 
@@ -323,6 +331,10 @@ int main() {
 
     switch (escolha) {
     case 1:
+      if (!existe_espaco_na_matriz(&cont)) {
+	esperar_enter(input);
+	break;
+      }
       criar_conjunto(&cont);
       esperar_enter(input);
       break;
@@ -346,11 +358,18 @@ int main() {
 
       if (!cont) {
         printf("Nenhum conjunto foi criado\n");
+	esperar_enter(input);
         break;
       }
 
       printf("\nDigite o numero do conjunto: ");
       scanf("%d", &linha_mostra_conjunto);
+      
+      if (!indice_esta_no_intervalo(linha_mostra_conjunto, &cont)) {
+	esperar_enter(input);
+	break;
+      }
+      
       mostrar_conjunto(&cont, conjuntos, linha_mostra_conjunto);
       esperar_enter(input);
       break;
@@ -371,30 +390,4 @@ int main() {
       break;
     }
   }
-
-  /*
-  preencher_linha(conjuntos, 0, 1);
-  preencher_linha(conjuntos, 1, 2);
-
-  mostrar_todos_os_conjuntos(&cont, conjuntos);
-
-  // mostrar_conjunto(&cont, conjuntos, 0);
-  inserir(&cont, conjuntos);
-  mostrar_todos_os_conjuntos(&cont, conjuntos);
-  inserir(&cont, conjuntos);
-  mostrar_todos_os_conjuntos(&cont, conjuntos);
-  //  mostrar_conjunto(&cont, conjuntos, 0);
-  //  mostrar_conjunto(&cont, conjuntos, 1);
-
-  printf("Testando remocao de conjunto\n");
-  mostrar_todos_os_conjuntos(&cont, conjuntos);
-  remover_conjunto(&cont, conjuntos);
-  printf("Cont: %d\n", cont);
-  mostrar_todos_os_conjuntos(&cont, conjuntos);
-
-  printf("Testando busca de valores ");
-  buscar_valor_matriz(&cont, conjuntos);
-
-  return 0;
-  */
 }
