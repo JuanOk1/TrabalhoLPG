@@ -193,6 +193,7 @@ void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
   scanf("%d", &i2);
 
   int pos_coluna_nova = 0;
+  int tamanho_excessivo = 0;
 
   if (i1 >= 0 && i1 < *cont && i2 >= 0 && i2 < *cont) {
     for (int j = 0; j < N && conjuntos[i1][j] != 0; j++) {
@@ -201,7 +202,13 @@ void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
       conjuntos[*cont][pos_coluna_nova] = conjuntos[i1][j];
       pos_coluna_nova++;
     }
-    for (int j = 0; j < N && conjuntos[i2][j] != 0; j++) {
+
+    if (pos_coluna_nova == N) {
+      //printf("Tamanho excessivo\n");
+      tamanho_excessivo = 1;
+    }
+    
+    for (int j = 0; j < N && conjuntos[i2][j] != 0 && !tamanho_excessivo; j++) {
       int elemento = conjuntos[i2][j];
       if (!busca_sequencial(conjuntos, *cont, elemento)) {
         conjuntos[*cont][pos_coluna_nova] = elemento;
@@ -211,7 +218,13 @@ void uniao_conjuntos(int *cont, int conjuntos[M][N]) {
     // adiciona o 0 no fim da nova linha para marcar o fim do conjunto
     conjuntos[*cont][pos_coluna_nova] = 0;
 
-    (*cont)++;
+    if (!tamanho_excessivo) (*cont)++;
+    if (tamanho_excessivo) {
+      for (int i = 0; i < N; i++)
+	conjuntos[*cont][i] = 0;
+      printf("Erro: tamanho excessivo para o conjunto resultante. Abortando...\n");
+      return;
+    }
 
     printf("Uniao realizada com sucesso na linha %d\n", *cont - 1);
   } else {
